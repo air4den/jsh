@@ -3,12 +3,11 @@
 #include <string.h>
 #include <unistd.h>
 
-
 #include "main.h"
 
 int main (int argc, char** argv) 
 {
-    // Load config files.
+    // Load config files. (I don't)
 
     // Run command loop.
     jsh_loop();
@@ -24,7 +23,7 @@ void jsh_loop(void)
     int status;
     do {
         printf("> ");
-        line = jsh_read_line();
+        line = jsh_read_line_2();
         args = jsh_split_line(line);
         status = jsh_execute(args);
         free(line);
@@ -187,7 +186,7 @@ int jsh_help(char** args)
     for (int i=0; i<jsh_num_builtins(); i++) {
         printf("    %s\n", builtin_str[i]);
     }
-    printf("Use \"man\" comand for other programs.");
+    printf("Use \"man\" comand for other programs.\n");
     return 1;
 }
 
