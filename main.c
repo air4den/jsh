@@ -31,7 +31,6 @@ void jsh_loop(void)
     } while(status);
 }
 
-#define JSH_RL_BUFFSIZE 1024
 char* jsh_read_line(void)
 {
     int buffsize = JSH_RL_BUFFSIZE;
@@ -128,7 +127,7 @@ int jsh_launch(char** args)
     if (pid == 0) {
         // Child process
         if (execvp(args[0], args) == -1) {
-            perror("jsh");
+            fprintf(stderr, "jsh: command not found: %s\n", args[0]);
         }
         exit(EXIT_FAILURE);
     } else if (pid < 0) {
