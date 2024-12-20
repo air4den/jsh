@@ -10,15 +10,15 @@
 char* builtin_str[] = {
     "cd",
     "help", 
+    "wtgw",
     "exit",
-    "wtgw"
 };
 
 int (*builtin_func[]) (char**) = {
     &jsh_cd,
     &jsh_help,
-    &jsh_exit,
-    &jsh_wtgw
+    &jsh_wtgw,
+    &jsh_exit
 };
 
 int jsh_num_builtins() 

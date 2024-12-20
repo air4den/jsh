@@ -9,4 +9,5 @@ I built __Jsh__, a simple shell to up my C skills and learn more operating syste
 Functions
 - cd - change current working directory
 - help - gives info about __Jsh__
+- wtgw - THWg
 - exit
