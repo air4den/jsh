@@ -10,13 +10,15 @@
 char* builtin_str[] = {
     "cd",
     "help", 
-    "exit"
+    "exit",
+    "wtgw"
 };
 
 int (*builtin_func[]) (char**) = {
     &jsh_cd,
     &jsh_help,
-    &jsh_exit
+    &jsh_exit,
+    &jsh_wtgw
 };
 
 int jsh_num_builtins() 
@@ -38,7 +40,8 @@ int jsh_cd(char** args)
 
 int jsh_help(char** args) 
 {
-    printf("Josh Forden's JSH\n");
+    printf("Welcome to Josh Forden's \e[1mjsh\e[m\n");
+    printf("       _      __   \n      (_)____/ /_  \n     / / ___/ __ \\\n    / (__  ) / / / \n __/ /____/_/ /_/  \n/___/             \n\n");
     printf("Enter shell program names and args.\n");
     printf("JSH has these programs built in:\n");
     for (int i=0; i<jsh_num_builtins(); i++) {
@@ -51,4 +54,28 @@ int jsh_help(char** args)
 int jsh_exit(char** args)
 {
     return 0;
+}
+
+int jsh_wtgw(char** args) 
+{
+    clr_yellow();
+    printf(
+    "🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝\n"
+    "   ________  ___       __      \n"
+    "  /_  __/ / / / |     / /___ _ \n"
+    "  / /  / /_/ /| | /| / / __ `/ \n"
+    " / /  / __  / | |/ |/ / /_/ /  \n"
+    "/_/  /_/ /_/  |__/|__/\\__, /   \n"
+    "                     /____/     \n"
+    "🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝🐝\n"
+    );
+    clr_reset();
+    return 1;
+}
+
+void clr_reset() {
+    printf("\033[0m");
+}
+void clr_yellow() {
+    printf("\033[1;33m");
 }
