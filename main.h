@@ -10,11 +10,6 @@ char* jsh_read_line_2(void);
 
 char** jsh_split_line(char* line);
 int jsh_launch(char** args);
-int jsh_cd(char** args);
-int jsh_help(char** args);
-int jsh_exit(char** args);
 
-char* builtin_str[];
-int (*builtin_func[]) (char**);
 int jsh_num_builtins();
 int jsh_execute(char** args);

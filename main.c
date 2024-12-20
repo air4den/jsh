@@ -2,8 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 
 #include "main.h"
+#include "func.h"
 
 int main (int argc, char** argv) 
 {
@@ -122,14 +124,17 @@ int jsh_launch(char** args)
     pid_t pid, wpid;
     int status;
 
-    
     pid = fork();  
     if (pid == 0) {
         // Child process
         if (execvp(args[0], args) == -1) {
-            fprintf(stderr, "jsh: command not found: %s\n", args[0]);
+            if (errno == ENOENT) {
+                fprintf(stderr, "jsh: command not found: %s\n", args[0]);
+            } else {
+                perror("jsh");
+            }
+            exit(EXIT_FAILURE);
         }
-        exit(EXIT_FAILURE);
     } else if (pid < 0) {
         // Error forking
         perror("jsh");
@@ -140,58 +145,6 @@ int jsh_launch(char** args)
         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     }
     return 1;
-}
-
-/*
-    Built-In Shell Commands
-*/
-
-
-
-char* builtin_str[] = {
-    "cd",
-    "help", 
-    "exit"
-};
-
-int (*builtin_func[]) (char**) = {
-    &jsh_cd,
-    &jsh_help,
-    &jsh_exit
-};
-
-int jsh_num_builtins() 
-{
-    return sizeof(builtin_str) / sizeof(char *);
-}
-
-int jsh_cd(char** args) 
-{
-    if (args[1] == NULL) {
-        fprintf(stderr, "jsh: expected argument to \"cd\"\n");
-    } else {
-        if (chdir(args[1]) != 0) {
-            perror("jsh");
-        }
-    }
-    return 1;
-}
-
-int jsh_help(char** args) 
-{
-    printf("Josh Forden's JSH\n");
-    printf("Enter shell program names and args.\n");
-    printf("JSH has these programs built in:\n");
-    for (int i=0; i<jsh_num_builtins(); i++) {
-        printf("    %s\n", builtin_str[i]);
-    }
-    printf("Use \"man\" comand for other programs.\n");
-    return 1;
-}
-
-int jsh_exit(char** args)
-{
-    return 0;
 }
 
 int jsh_execute(char** args) 

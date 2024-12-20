@@ -1,8 +1,8 @@
 CC=gcc
-SRC=main.c
+SRC=*.c
 TARGET=jsh
 
-build:	./main.c
+build:	./*.c
 	$(CC) $(SRC) -o $(TARGET)
 
 run: build
